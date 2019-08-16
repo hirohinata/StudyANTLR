@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime.Misc;
 
@@ -7,19 +8,49 @@ namespace MnemonicParser
     internal class MnemonicVisitor : gen.MnemonicBaseVisitor<MnemonicResult>
     {
         private readonly Plc _plc;
+        private bool _executeFlg;
 
         public MnemonicVisitor(Plc plc)
         {
             _plc = plc;
-
-            _plc.WordDevices["DM1"] = 10;
+            _executeFlg = false;
         }
 
         public override MnemonicResult VisitMnemonic([NotNull] gen.MnemonicParser.MnemonicContext context)
         {
             var inst = (InstructionResult)Visit(context.instruction());
-            var operands = context.operand_list().Select(Visit);
-            return base.VisitMnemonic(context);
+
+            var operands =
+                    context
+                    .operand_list()
+                    .operand()
+                    .Select(Visit)
+                    .Cast<OperandResult>()
+                    .ToList();
+
+            Execute(inst, operands);
+            return DefaultResult;
+        }
+
+        private void Execute(InstructionResult inst, List<OperandResult> operands)
+        {
+            switch (inst.Instruction)
+            {
+                case Instruction.LD:
+                    _executeFlg = _plc.BitDevices[operands[0].Text];
+                    break;
+
+                case Instruction.LDB:
+                    _executeFlg = !_plc.BitDevices[operands[0].Text];
+                    break;
+
+                case Instruction.MOV:
+                    if (_executeFlg)
+                    {
+                        _plc.WordDevices[operands[1].Text] = _plc.WordDevices[operands[0].Text];
+                    }
+                    break;
+            }
         }
 
         public override MnemonicResult VisitInstruction([NotNull] gen.MnemonicParser.InstructionContext context)
@@ -54,6 +85,12 @@ namespace MnemonicParser
                 case "DF": return Suffix.DF;
                 default: throw new InvalidOperationException($"存在しないサフィックス( {context.GetText()} )です。");
             }
+        }
+
+        public override MnemonicResult VisitOperand([NotNull] gen.MnemonicParser.OperandContext context)
+        {
+            //TODO: 各種対応
+            return new OperandResult(context.GetText());
         }
     }
 }

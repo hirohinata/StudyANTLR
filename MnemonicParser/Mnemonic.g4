@@ -10,7 +10,7 @@ line_input
     | trivia
     ;
 mnemonic
-    : WS* instruction (WS+ operand_list)* trivia
+    : WS* instruction (WS+ operand_list)? trivia
     ;
 line_comment
     : COMMENT

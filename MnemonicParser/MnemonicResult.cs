@@ -18,4 +18,14 @@ namespace MnemonicParser
             Suffix = suffix;
         }
     }
+
+    internal class OperandResult : MnemonicResult
+    {
+        public string Text { get; }
+
+        public OperandResult(string text)
+        {
+            Text = text;
+        }
+    }
 }
