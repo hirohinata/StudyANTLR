@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MnemonicParser", "MnemonicParser\MnemonicParser.csproj", "{11B59CFD-40BD-4B4E-AB79-1950EA58CD93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MnemonicParserTest", "MnemonicParserTest\MnemonicParserTest.csproj", "{22488C2D-5F75-4344-8599-17AE253321AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11B59CFD-40BD-4B4E-AB79-1950EA58CD93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11B59CFD-40BD-4B4E-AB79-1950EA58CD93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11B59CFD-40BD-4B4E-AB79-1950EA58CD93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11B59CFD-40BD-4B4E-AB79-1950EA58CD93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22488C2D-5F75-4344-8599-17AE253321AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22488C2D-5F75-4344-8599-17AE253321AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22488C2D-5F75-4344-8599-17AE253321AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22488C2D-5F75-4344-8599-17AE253321AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
