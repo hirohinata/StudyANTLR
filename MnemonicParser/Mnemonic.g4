@@ -22,7 +22,7 @@ trivia
     ;
 
 instruction
-    : (IDENTIFIER | IDENTIFIER_WITH_SYMBOL) suffix?
+    : name=(IDENTIFIER | IDENTIFIER_WITH_SYMBOL) suffix?
     ;
 suffix
     : DOT IDENTIFIER     // 存在しないサフィックスは意味解析で弾く

@@ -446,6 +446,7 @@ public partial class MnemonicParser : Parser {
 	}
 
 	public partial class InstructionContext : ParserRuleContext {
+		public IToken name;
 		public ITerminalNode IDENTIFIER() { return GetToken(MnemonicParser.IDENTIFIER, 0); }
 		public ITerminalNode IDENTIFIER_WITH_SYMBOL() { return GetToken(MnemonicParser.IDENTIFIER_WITH_SYMBOL, 0); }
 		public SuffixContext suffix() {
@@ -472,9 +473,10 @@ public partial class MnemonicParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 99;
+			_localctx.name = TokenStream.LT(1);
 			_la = TokenStream.LA(1);
 			if ( !(_la==IDENTIFIER || _la==IDENTIFIER_WITH_SYMBOL) ) {
-			ErrorHandler.RecoverInline(this);
+				_localctx.name = ErrorHandler.RecoverInline(this);
 			}
 			else {
 				ErrorHandler.ReportMatch(this);
