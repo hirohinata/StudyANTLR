@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MnemonicParser;
 using NUnit.Framework;
 
@@ -10,21 +11,56 @@ namespace MnemonicParserTest
         private const bool ON = true;
         private const bool OFF = false;
 
-        [Test]
-        public void Test()
+        [Test, TestCaseSource(nameof(TestCaseSource))]
+        public void Test(
+            Dictionary<string, bool> bitDevices,
+            Dictionary<string, ushort> wordDevices,
+            string mnemonic,
+            Dictionary<string, bool> expectedBitDevices,
+            Dictionary<string, ushort> expectedWordDevices)
         {
             var plc = new Plc();
 
             // 実行前のセットアップ
-            plc.BitDevices["R0"] = ON;
-            plc.WordDevices["DM0"] = 10;
-            plc.WordDevices["DM1"] = 0;
+            foreach (var device in bitDevices)
+            {
+                plc.BitDevices[device.Key] = device.Value;
+            }
+            foreach (var device in wordDevices)
+            {
+                plc.WordDevices[device.Key] = device.Value;
+            }
 
             // 構文解析＆意味解析してニモニックの実行
-            Interpreter.Execute(plc, "LD R0\nMOV DM0 DM1");
+            Interpreter.Execute(plc, mnemonic);
 
             // 実行結果の確認
-            Assert.AreEqual(10, plc.WordDevices["DM1"]);
+            foreach (var device in expectedBitDevices)
+            {
+                Assert.AreEqual(device.Value, plc.BitDevices[device.Key]);
+            }
+            foreach (var device in expectedWordDevices)
+            {
+                Assert.AreEqual(device.Value, plc.WordDevices[device.Key]);
+            }
         }
+
+        private static object[] TestCaseSource =
+        {
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } },
+                "LD R0\nMOV DM0 DM1",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 10 } }
+            },
+            new object[] {
+                new Dictionary<string, bool> { { "R0", OFF } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } },
+                "LD R0\nMOV DM0 DM1",
+                new Dictionary<string, bool> { { "R0", OFF } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } }
+            },
+        };
     }
 }
