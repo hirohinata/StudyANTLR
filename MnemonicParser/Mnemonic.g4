@@ -59,29 +59,17 @@ label
     ;
 
 literal
-    : number
-    | string
-    | NULL
-    ;
-number
     : dec_number
     | DEC_K_NUMBER
-    | hex_number
-    | real_number
+    | HEX_NUMBER
+    | REAL_NUMBER
+    | DOT_NUMBER
+    | STRING
+    | NULL
     ;
 dec_number
     : DEC_SHARP_NUMBER
     | RAW_NUMBER
-    ;
-hex_number
-    : HEX_NUMBER
-    ;
-real_number
-    : REAL_NUMBER
-    | DOT_NUMBER
-    ;
-string
-    : STRING
     ;
 
 fragment A: [Aa];

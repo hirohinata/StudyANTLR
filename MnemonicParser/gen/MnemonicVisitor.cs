@@ -169,34 +169,10 @@ public interface IMnemonicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLiteral([NotNull] MnemonicParser.LiteralContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.number"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitNumber([NotNull] MnemonicParser.NumberContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="MnemonicParser.dec_number"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDec_number([NotNull] MnemonicParser.Dec_numberContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.hex_number"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitHex_number([NotNull] MnemonicParser.Hex_numberContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.real_number"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitReal_number([NotNull] MnemonicParser.Real_numberContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.string"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitString([NotNull] MnemonicParser.StringContext context);
 }
 } // namespace MnemonicParser.gen
