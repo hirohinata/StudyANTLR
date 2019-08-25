@@ -26,6 +26,12 @@ namespace MnemonicParser
             return (result as WordDeviceResult)?.ToString() ?? "";
         }
 
+        public static string NormalizeZDevice(string text)
+        {
+            MnemonicResult result = VisitOperand(text);
+            return (result as ZDeviceResult)?.ToString() ?? "";
+        }
+
         private static MnemonicResult VisitOperand(string text)
         {
             var stream = new AntlrInputStream(text);

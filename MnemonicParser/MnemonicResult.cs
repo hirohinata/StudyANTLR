@@ -108,6 +108,21 @@ namespace MnemonicParser
         private string DeviceNo => No.ToString();
     }
 
+    internal class ZDeviceResult : OperandResult
+    {
+        public uint No { get; }
+
+        public ZDeviceResult(uint no)
+        {
+            No = no;
+        }
+
+        public ZDeviceResult Advance(int count)
+            => new ZDeviceResult((uint)(No + count));
+
+        public override string ToString() => $"Z{No}";
+    }
+
     internal class UnimplementedOperandResult : OperandResult
     {
         public string Text { get; }

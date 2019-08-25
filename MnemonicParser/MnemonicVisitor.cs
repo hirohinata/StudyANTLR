@@ -45,6 +45,8 @@ namespace MnemonicParser
             {
                 if (operand is WordDeviceResult wordDevice)
                     return _plc.WordDevices[wordDevice.ToString()];
+                if (operand is ZDeviceResult zDevice)
+                    return _plc.ZDevices[zDevice.ToString()].ToLowWordDevice();
                 throw new InvalidOperationException($"( {operand} )はワードデバイスではありません。");
             }
 
@@ -55,6 +57,16 @@ namespace MnemonicParser
                         .Range(0, count)
                         .Select(wordDevice.Advance)
                         .Select(device => _plc.WordDevices[device.ToString()])
+                        .ToArray();
+
+                if (operand is ZDeviceResult zDevice)
+                    return Enumerable
+                        .Range(0, count)
+                        .Select(index => {
+                            var device = _plc.ZDevices[zDevice.Advance(index / 2).ToString()];
+                            if (index % 2 == 0) return device.ToLowWordDevice();
+                            return device.ToHighWordDevice();
+                        })
                         .ToArray();
 
                 throw new InvalidOperationException($"( {operand} )はワードデバイスではありません。");
@@ -247,8 +259,7 @@ namespace MnemonicParser
 
         public override MnemonicResult VisitZDeviceOperand([NotNull] gen.MnemonicParser.ZDeviceOperandContext context)
         {
-            //TODO: 各種対応
-            return new UnimplementedOperandResult(context.GetText());
+            return new ZDeviceResult(uint.Parse(context.Z_DEVICE().Symbol.Text.Substring(1)));
         }
 
         public override MnemonicResult VisitNoneOperand([NotNull] gen.MnemonicParser.NoneOperandContext context)
