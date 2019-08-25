@@ -86,6 +86,25 @@ namespace MnemonicParserTest
                 new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } },
                 new Dictionary<string, uint> {}
             },
+            // LDB
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } },
+                new Dictionary<string, uint> {},
+                "LDB R0\nMOV DM0 DM1",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } },
+                new Dictionary<string, uint> {}
+            },
+            new object[] {
+                new Dictionary<string, bool> { { "R0", OFF } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } },
+                new Dictionary<string, uint> {},
+                "LDB R0\nMOV DM0 DM1",
+                new Dictionary<string, bool> { { "R0", OFF } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 10 } },
+                new Dictionary<string, uint> {}
+            },
             // サフィックス
             new object[] {
                 new Dictionary<string, bool> { { "R0", ON } },
