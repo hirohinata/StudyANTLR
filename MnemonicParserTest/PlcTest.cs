@@ -53,6 +53,7 @@ namespace MnemonicParserTest
 
         private static object[] TestCaseSource =
         {
+            // 基本パターン
             new object[] {
                 new Dictionary<string, bool> { { "R0", ON } },
                 new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } },
@@ -60,12 +61,56 @@ namespace MnemonicParserTest
                 new Dictionary<string, bool> { { "R0", ON } },
                 new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 10 } }
             },
+            // LD OFF の場合はMOVしないことの確認
             new object[] {
                 new Dictionary<string, bool> { { "R0", OFF } },
                 new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } },
                 "LD R0\nMOV DM0 DM1",
                 new Dictionary<string, bool> { { "R0", OFF } },
                 new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 0 } }
+            },
+            // サフィックス
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 0 }, { "DM11", 0 }, { "DM12", 0 }, { "DM13", 0 } },
+                "LD R0\nMOV.U DM0 DM10",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 10 }, { "DM11", 0 }, { "DM12", 0 }, { "DM13", 0 } },
+            },
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 0 }, { "DM11", 0 }, { "DM12", 0 }, { "DM13", 0 } },
+                "LD R0\nMOV.S DM0 DM10",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 10 }, { "DM11", 0 }, { "DM12", 0 }, { "DM13", 0 } },
+            },
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 0 }, { "DM11", 0 }, { "DM12", 0 }, { "DM13", 0 } },
+                "LD R0\nMOV.D DM0 DM10",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 10 }, { "DM11", 20 }, { "DM12", 0 }, { "DM13", 0 } },
+            },
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 0 }, { "DM11", 0 }, { "DM12", 0 }, { "DM13", 0 } },
+                "LD R0\nMOV.L DM0 DM10",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 10 }, { "DM11", 20 }, { "DM12", 0 }, { "DM13", 0 } },
+            },
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 0 }, { "DM11", 0 }, { "DM12", 0 }, { "DM13", 0 } },
+                "LD R0\nMOV.F DM0 DM10",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 10 }, { "DM11", 20 }, { "DM12", 0 }, { "DM13", 0 } },
+            },
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 0 }, { "DM11", 0 }, { "DM12", 0 }, { "DM13", 0 } },
+                "LD R0\nMOV.DF DM0 DM10",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 10 }, { "DM1", 20 }, { "DM2", 30 }, { "DM3", 40 }, { "DM10", 10 }, { "DM11", 20 }, { "DM12", 30 }, { "DM13", 40 } },
             },
         };
     }

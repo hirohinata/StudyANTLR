@@ -48,6 +48,18 @@ namespace MnemonicParser
                 throw new InvalidOperationException($"( {operand} )はワードデバイスではありません。");
             }
 
+            WordDevice[] GetWordDevices(OperandResult operand, int count)
+            {
+                if (operand is WordDeviceResult wordDevice)
+                    return Enumerable
+                        .Range(0, count)
+                        .Select(wordDevice.Advance)
+                        .Select(device => _plc.WordDevices[device.ToString()])
+                        .ToArray();
+
+                throw new InvalidOperationException($"( {operand} )はワードデバイスではありません。");
+            }
+
             switch (inst.Instruction)
             {
                 case Instruction.LD:
@@ -61,7 +73,31 @@ namespace MnemonicParser
                 case Instruction.MOV:
                     if (_executeFlg)
                     {
-                        GetWordDevice(operands[1]).Value = GetWordDevice(operands[0]).Value;
+                        int count;
+                        switch (inst.Suffix)
+                        {
+                            case Suffix.S:
+                            case Suffix.U:
+                                count = 1;
+                                break;
+                            case Suffix.D:
+                            case Suffix.L:
+                            case Suffix.F:
+                                count = 2;
+                                break;
+                            case Suffix.DF:
+                                count = 4;
+                                break;
+                            default:
+                                throw new InvalidOperationException();
+                        }
+
+                        var src = GetWordDevices(operands[0], count);
+                        var dst = GetWordDevices(operands[1], count);
+                        foreach (var (s, d) in src.Zip(dst, (s, d) => (s, d)))
+                        {
+                            d.Value = s.Value;
+                        }
                     }
                     break;
             }
@@ -69,10 +105,21 @@ namespace MnemonicParser
 
         public override MnemonicResult VisitInstruction([NotNull] gen.MnemonicParser.InstructionContext context)
         {
-            return new InstructionResult(
-                GetInstruction(context.name.Text),
-                GetSuffix(context.suffix())
-            );
+            var instruction = GetInstruction(context.name.Text);
+            var suffix = GetSuffix(context.suffix());
+            switch (instruction)
+            {
+                case Instruction.LD:
+                case Instruction.LDB:
+                    if (suffix != Suffix.NONE)
+                        throw new InvalidOperationException($"非対応のサフィックス( {context.GetText()} )です。");
+                    break;
+                case Instruction.MOV:
+                    if (suffix == Suffix.NONE)
+                        suffix = Suffix.U;
+                    break;
+            }
+            return new InstructionResult(instruction, suffix);
         }
 
         private Instruction GetInstruction([NotNull]string instructionName)
@@ -88,7 +135,7 @@ namespace MnemonicParser
 
         private Suffix GetSuffix([Nullable]gen.MnemonicParser.SuffixContext context)
         {
-            if (context == null) return Suffix.S;
+            if (context == null) return Suffix.NONE;
             switch (context.IDENTIFIER().GetText().ToUpper())
             {
                 case "U": return Suffix.U;

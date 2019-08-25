@@ -2,7 +2,7 @@
 
 namespace MnemonicParser
 {
-    internal enum Suffix { U, S, D, L, F, DF }
+    internal enum Suffix { NONE, U, S, D, L, F, DF }
     internal enum Instruction { LD, LDB, MOV }
     internal enum BitDeviceType { R, DR, MR, LR, B, CR }
     internal enum WordDeviceType { DM, EM, FM, W, ZF, CM }
@@ -35,6 +35,9 @@ namespace MnemonicParser
             No = no;
             IsLocal = isLocal;
         }
+
+        public BitDeviceResult Advance(int count)
+            => new BitDeviceResult(Type, (uint)(No + count), IsLocal);
 
         public override string ToString()
         {
@@ -75,6 +78,9 @@ namespace MnemonicParser
             No = no;
             IsLocal = isLocal;
         }
+
+        public WordDeviceResult Advance(int count)
+            => new WordDeviceResult(Type, (uint)(No + count), IsLocal);
 
         public override string ToString()
         {
