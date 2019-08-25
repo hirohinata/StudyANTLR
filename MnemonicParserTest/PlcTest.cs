@@ -190,6 +190,16 @@ namespace MnemonicParserTest
                 new Dictionary<string, ushort> { { "DM0", 42 }, { "DM10", 42 }, },
                 new Dictionary<string, uint> { { "Z1", 10 } },
             },
+            // 即値によるインデックス修飾
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 42 }, { "DM10", 0 } },
+                new Dictionary<string, uint> {},
+                "LD R0\nMOV DM0 DM0:#10",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 42 }, { "DM10", 42 }, },
+                new Dictionary<string, uint> {},
+            },
             // OUT
             new object[] {
                 new Dictionary<string, bool> { { "R0", ON }, { "R1", OFF } },

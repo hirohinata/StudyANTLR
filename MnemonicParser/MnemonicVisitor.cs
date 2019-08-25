@@ -183,6 +183,8 @@ namespace MnemonicParser
             {
                 if (rhs is ZDeviceResult zDevice)
                     return device.Advance((int)GetZDevice(zDevice).Value).ToOperandResult();
+                if (rhs is IntLiteralResult intLiteral)
+                    return device.Advance(intLiteral.Value).ToOperandResult();
             }
 
             //TODO: 各種対応
@@ -300,8 +302,14 @@ namespace MnemonicParser
             if (z_device != null)
                 return new ZDeviceResult(uint.Parse(z_device.Symbol.Text.Substring(1)));
 
-            //TODO: 各種対応
-            return new UnimplementedOperandResult(context.GetText());
+            return Visit(context.dec_number());
+        }
+
+        public override MnemonicResult VisitDec_number([NotNull] gen.MnemonicParser.Dec_numberContext context)
+        {
+            var text = context.GetText();
+            if (text[0] == '#') text = text.Substring(1);
+            return new IntLiteralResult(int.Parse(text));
         }
     }
 }

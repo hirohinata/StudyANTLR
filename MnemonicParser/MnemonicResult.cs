@@ -135,6 +135,14 @@ namespace MnemonicParser
         public override string ToString() => $"Z{No}";
     }
 
+    internal class IntLiteralResult : OperandResult
+    {
+        public int Value { get; }
+
+        public IntLiteralResult(int value)
+            => Value = value;
+    }
+
     internal class UnimplementedOperandResult : OperandResult
     {
         public string Text { get; }
