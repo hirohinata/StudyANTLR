@@ -87,7 +87,37 @@ namespace MnemonicParser
             }
         }
 
-        public override MnemonicResult VisitOperand([NotNull] gen.MnemonicParser.OperandContext context)
+        public override MnemonicResult VisitIndexableOperand([NotNull] gen.MnemonicParser.IndexableOperandContext context)
+        {
+            //TODO: 各種対応
+            return new OperandResult(context.GetText());
+        }
+
+        public override MnemonicResult VisitRelayDeviceOperand([NotNull] gen.MnemonicParser.RelayDeviceOperandContext context)
+        {
+            //TODO: 各種対応
+            return new OperandResult(context.GetText());
+        }
+
+        public override MnemonicResult VisitWordBitDeviceOperand([NotNull] gen.MnemonicParser.WordBitDeviceOperandContext context)
+        {
+            //TODO: 各種対応
+            return new OperandResult(context.GetText());
+        }
+
+        public override MnemonicResult VisitOldIndirectOperand([NotNull] gen.MnemonicParser.OldIndirectOperandContext context)
+        {
+            //TODO: 各種対応
+            return new OperandResult(context.GetText());
+        }
+
+        public override MnemonicResult VisitZDeviceOperand([NotNull] gen.MnemonicParser.ZDeviceOperandContext context)
+        {
+            //TODO: 各種対応
+            return new OperandResult(context.GetText());
+        }
+
+        public override MnemonicResult VisitNoneOperand([NotNull] gen.MnemonicParser.NoneOperandContext context)
         {
             //TODO: 各種対応
             return new OperandResult(context.GetText());

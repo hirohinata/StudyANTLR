@@ -115,7 +115,8 @@ public partial class MnemonicBaseVisitor<Result> : AbstractParseTreeVisitor<Resu
 	/// <return>The visitor result.</return>
 	public virtual Result VisitOperand_list([NotNull] MnemonicParser.Operand_listContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.operand"/>.
+	/// Visit a parse tree produced by the <c>indexableOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -123,7 +124,62 @@ public partial class MnemonicBaseVisitor<Result> : AbstractParseTreeVisitor<Resu
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitOperand([NotNull] MnemonicParser.OperandContext context) { return VisitChildren(context); }
+	public virtual Result VisitIndexableOperand([NotNull] MnemonicParser.IndexableOperandContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>noneOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitNoneOperand([NotNull] MnemonicParser.NoneOperandContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>relayDeviceOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitRelayDeviceOperand([NotNull] MnemonicParser.RelayDeviceOperandContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>wordBitDeviceOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitWordBitDeviceOperand([NotNull] MnemonicParser.WordBitDeviceOperandContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>oldIndirectOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitOldIndirectOperand([NotNull] MnemonicParser.OldIndirectOperandContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>zDeviceOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitZDeviceOperand([NotNull] MnemonicParser.ZDeviceOperandContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="MnemonicParser.indexable_operand"/>.
 	/// <para>
@@ -135,7 +191,7 @@ public partial class MnemonicBaseVisitor<Result> : AbstractParseTreeVisitor<Resu
 	/// <return>The visitor result.</return>
 	public virtual Result VisitIndexable_operand([NotNull] MnemonicParser.Indexable_operandContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.relay_device"/>.
+	/// Visit a parse tree produced by <see cref="MnemonicParser.indexed_operand"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -143,17 +199,7 @@ public partial class MnemonicBaseVisitor<Result> : AbstractParseTreeVisitor<Resu
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitRelay_device([NotNull] MnemonicParser.Relay_deviceContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.wordbit_device"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitWordbit_device([NotNull] MnemonicParser.Wordbit_deviceContext context) { return VisitChildren(context); }
+	public virtual Result VisitIndexed_operand([NotNull] MnemonicParser.Indexed_operandContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="MnemonicParser.word_device"/>.
 	/// <para>

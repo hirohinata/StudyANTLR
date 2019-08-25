@@ -32,29 +32,26 @@ operand_list
     : operand (WS+ operand)*
     ;
 operand
-    : indexable_operand COLON (Z_DEVICE | dec_number)
-    | indexable_operand
-    | AT? (relay_device | wordbit_device)
-    | SHARP TM_DEVICE DOT_NUMBER?
-    | Z_DEVICE
-    | literal
+    : indexable_operand COLON indexed_operand           #indexableOperand
+    | indexable_operand                                 #noneOperand
+    | AT? RELAY_DEVICE                                  #relayDeviceOperand
+    | AT? device=(WORD_DEVICE | TM_DEVICE) DOT_NUMBER   #wordBitDeviceOperand
+    | SHARP TM_DEVICE DOT_NUMBER?                       #oldIndirectOperand
+    | Z_DEVICE                                          #zDeviceOperand
+    | literal                                           #noneOperand
     ;
 indexable_operand
-    : ASTERISK? AT? relay_device
-    | ASTERISK? AT? word_device
+    : ASTERISK? AT? word_device
     | ASTERISK? AT? timer_device
     | ASTERISK? AT? counter_device
     | AT? RAW_NUMBER
     | ASTERISK? label
     ;
+indexed_operand
+    : Z_DEVICE
+    | dec_number
+    ;
 
-relay_device
-    : RELAY_DEVICE
-    ;
-wordbit_device
-    : WORD_DEVICE DOT_NUMBER
-    | TM_DEVICE DOT_NUMBER
-    ;
 word_device
     : WORD_DEVICE
     | TM_DEVICE

@@ -81,11 +81,47 @@ public interface IMnemonicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitOperand_list([NotNull] MnemonicParser.Operand_listContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.operand"/>.
+	/// Visit a parse tree produced by the <c>indexableOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitOperand([NotNull] MnemonicParser.OperandContext context);
+	Result VisitIndexableOperand([NotNull] MnemonicParser.IndexableOperandContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>noneOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNoneOperand([NotNull] MnemonicParser.NoneOperandContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>relayDeviceOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRelayDeviceOperand([NotNull] MnemonicParser.RelayDeviceOperandContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>wordBitDeviceOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitWordBitDeviceOperand([NotNull] MnemonicParser.WordBitDeviceOperandContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>oldIndirectOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitOldIndirectOperand([NotNull] MnemonicParser.OldIndirectOperandContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>zDeviceOperand</c>
+	/// labeled alternative in <see cref="MnemonicParser.operand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitZDeviceOperand([NotNull] MnemonicParser.ZDeviceOperandContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="MnemonicParser.indexable_operand"/>.
 	/// </summary>
@@ -93,17 +129,11 @@ public interface IMnemonicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIndexable_operand([NotNull] MnemonicParser.Indexable_operandContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.relay_device"/>.
+	/// Visit a parse tree produced by <see cref="MnemonicParser.indexed_operand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRelay_device([NotNull] MnemonicParser.Relay_deviceContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MnemonicParser.wordbit_device"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitWordbit_device([NotNull] MnemonicParser.Wordbit_deviceContext context);
+	Result VisitIndexed_operand([NotNull] MnemonicParser.Indexed_operandContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="MnemonicParser.word_device"/>.
 	/// </summary>
