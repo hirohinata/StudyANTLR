@@ -161,6 +161,16 @@ namespace MnemonicParserTest
                 new Dictionary<string, ushort> { { "DM0", 0x0010 }, { "DM1", 0x0020 }, },
                 new Dictionary<string, uint> { { "Z1", 0x0020_0010 } },
             },
+            // Zデバイスによるインデックス修飾
+            new object[] {
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 42 }, { "DM10", 0 } },
+                new Dictionary<string, uint> { { "Z1", 10 } },
+                "LD R0\nMOV DM0 DM0:Z1",
+                new Dictionary<string, bool> { { "R0", ON } },
+                new Dictionary<string, ushort> { { "DM0", 42 }, { "DM10", 42 }, },
+                new Dictionary<string, uint> { { "Z1", 10 } },
+            },
         };
     }
 }

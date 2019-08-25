@@ -32,46 +32,54 @@ namespace MnemonicParser
             return DefaultResult;
         }
 
+        private BitDevice GetBitDevice(OperandResult operand)
+        {
+            if (operand is BitDeviceResult bitDevice)
+                return _plc.BitDevices[bitDevice.ToString()];
+            throw new InvalidOperationException($"( {operand} )はリレーデバイスではありません。");
+        }
+
+        private WordDevice GetWordDevice(OperandResult operand)
+        {
+            if (operand is WordDeviceResult wordDevice)
+                return _plc.WordDevices[wordDevice.ToString()];
+            if (operand is ZDeviceResult zDevice)
+                return _plc.ZDevices[zDevice.ToString()].ToLowWordDevice();
+            throw new InvalidOperationException($"( {operand} )はワードデバイスではありません。");
+        }
+
+        private WordDevice[] GetWordDevices(OperandResult operand, int count)
+        {
+            if (operand is WordDeviceResult wordDevice)
+                return Enumerable
+                    .Range(0, count)
+                    .Select(wordDevice.Advance)
+                    .Select(device => _plc.WordDevices[device.ToString()])
+                    .ToArray();
+
+            if (operand is ZDeviceResult zDevice)
+                return Enumerable
+                    .Range(0, count)
+                    .Select(index =>
+                    {
+                        var device = _plc.ZDevices[zDevice.Advance(index / 2).ToString()];
+                        if (index % 2 == 0) return device.ToLowWordDevice();
+                        return device.ToHighWordDevice();
+                    })
+                    .ToArray();
+
+            throw new InvalidOperationException($"( {operand} )はワードデバイスではありません。");
+        }
+
+        private ZDevice GetZDevice(OperandResult operand)
+        {
+            if (operand is ZDeviceResult zDevice)
+                return _plc.ZDevices[zDevice.ToString()];
+            throw new InvalidOperationException($"( {operand} )はZデバイスではありません。");
+        }
+
         private void Execute(InstructionResult inst, List<OperandResult> operands)
         {
-            BitDevice GetBitDevice(OperandResult operand)
-            {
-                if (operand is BitDeviceResult bitDevice)
-                    return _plc.BitDevices[bitDevice.ToString()];
-                throw new InvalidOperationException($"( {operand} )はリレーデバイスではありません。");
-            }
-
-            WordDevice GetWordDevice(OperandResult operand)
-            {
-                if (operand is WordDeviceResult wordDevice)
-                    return _plc.WordDevices[wordDevice.ToString()];
-                if (operand is ZDeviceResult zDevice)
-                    return _plc.ZDevices[zDevice.ToString()].ToLowWordDevice();
-                throw new InvalidOperationException($"( {operand} )はワードデバイスではありません。");
-            }
-
-            WordDevice[] GetWordDevices(OperandResult operand, int count)
-            {
-                if (operand is WordDeviceResult wordDevice)
-                    return Enumerable
-                        .Range(0, count)
-                        .Select(wordDevice.Advance)
-                        .Select(device => _plc.WordDevices[device.ToString()])
-                        .ToArray();
-
-                if (operand is ZDeviceResult zDevice)
-                    return Enumerable
-                        .Range(0, count)
-                        .Select(index => {
-                            var device = _plc.ZDevices[zDevice.Advance(index / 2).ToString()];
-                            if (index % 2 == 0) return device.ToLowWordDevice();
-                            return device.ToHighWordDevice();
-                        })
-                        .ToArray();
-
-                throw new InvalidOperationException($"( {operand} )はワードデバイスではありません。");
-            }
-
             switch (inst.Instruction)
             {
                 case Instruction.LD:
@@ -162,6 +170,15 @@ namespace MnemonicParser
 
         public override MnemonicResult VisitIndexableOperand([NotNull] gen.MnemonicParser.IndexableOperandContext context)
         {
+            var lhs = Visit(context.indexable_operand());
+            var rhs = Visit(context.indexed_operand());
+
+            if (lhs is IDeviceResult device)
+            {
+                if (rhs is ZDeviceResult zDevice)
+                    return device.Advance((int)GetZDevice(zDevice).Value).ToOperandResult();
+            }
+
             //TODO: 各種対応
             return new UnimplementedOperandResult(context.GetText());
         }
@@ -269,6 +286,16 @@ namespace MnemonicParser
                 return Visit(indexableOperand);
 
             return Visit(context.literal());
+        }
+
+        public override MnemonicResult VisitIndexed_operand([NotNull] gen.MnemonicParser.Indexed_operandContext context)
+        {
+            var z_device = context.Z_DEVICE();
+            if (z_device != null)
+                return new ZDeviceResult(uint.Parse(z_device.Symbol.Text.Substring(1)));
+
+            //TODO: 各種対応
+            return new UnimplementedOperandResult(context.GetText());
         }
     }
 }

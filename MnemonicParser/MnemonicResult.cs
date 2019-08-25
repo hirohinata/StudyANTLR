@@ -23,7 +23,13 @@ namespace MnemonicParser
 
     internal class OperandResult : MnemonicResult {}
 
-    internal class BitDeviceResult : OperandResult
+    internal interface IDeviceResult
+    {
+        OperandResult ToOperandResult();
+        IDeviceResult Advance(int count);
+    }
+
+    internal class BitDeviceResult : OperandResult, IDeviceResult
     {
         public BitDeviceType Type { get; }
         public uint No { get; }
@@ -36,7 +42,9 @@ namespace MnemonicParser
             IsLocal = isLocal;
         }
 
-        public BitDeviceResult Advance(int count)
+        public OperandResult ToOperandResult() => this;
+
+        public IDeviceResult Advance(int count)
             => new BitDeviceResult(Type, (uint)(No + count), IsLocal);
 
         public override string ToString()
@@ -66,7 +74,7 @@ namespace MnemonicParser
             => $"{No / 16}{No % 16:D02}";
     }
 
-    internal class WordDeviceResult : OperandResult
+    internal class WordDeviceResult : OperandResult, IDeviceResult
     {
         public WordDeviceType Type { get; }
         public uint No { get; }
@@ -79,7 +87,9 @@ namespace MnemonicParser
             IsLocal = isLocal;
         }
 
-        public WordDeviceResult Advance(int count)
+        public OperandResult ToOperandResult() => this;
+
+        public IDeviceResult Advance(int count)
             => new WordDeviceResult(Type, (uint)(No + count), IsLocal);
 
         public override string ToString()
@@ -108,7 +118,7 @@ namespace MnemonicParser
         private string DeviceNo => No.ToString();
     }
 
-    internal class ZDeviceResult : OperandResult
+    internal class ZDeviceResult : OperandResult, IDeviceResult
     {
         public uint No { get; }
 
@@ -117,7 +127,9 @@ namespace MnemonicParser
             No = no;
         }
 
-        public ZDeviceResult Advance(int count)
+        public OperandResult ToOperandResult() => this;
+
+        public IDeviceResult Advance(int count)
             => new ZDeviceResult((uint)(No + count));
 
         public override string ToString() => $"Z{No}";
