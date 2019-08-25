@@ -90,6 +90,10 @@ namespace MnemonicParser
                     _executeFlg = !GetBitDevice(operands[0]).Value;
                     break;
 
+                case Instruction.OUT:
+                    GetBitDevice(operands[0]).Value = _executeFlg;
+                    break;
+
                 case Instruction.MOV:
                     if (_executeFlg)
                     {
@@ -131,6 +135,7 @@ namespace MnemonicParser
             {
                 case Instruction.LD:
                 case Instruction.LDB:
+                case Instruction.OUT:
                     if (suffix != Suffix.NONE)
                         throw new InvalidOperationException($"非対応のサフィックス( {context.GetText()} )です。");
                     break;
@@ -148,6 +153,7 @@ namespace MnemonicParser
             {
                 case "LD": return Instruction.LD;
                 case "LDB": return Instruction.LDB;
+                case "OUT": return Instruction.OUT;
                 case "MOV": return Instruction.MOV;
                 default: throw new InvalidOperationException($"存在しない命令語( {instructionName} )です。");
             }

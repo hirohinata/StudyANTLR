@@ -3,7 +3,7 @@
 namespace MnemonicParser
 {
     internal enum Suffix { NONE, U, S, D, L, F, DF }
-    internal enum Instruction { LD, LDB, MOV }
+    internal enum Instruction { LD, LDB, OUT, MOV }
     internal enum BitDeviceType { R, DR, MR, LR, B, CR }
     internal enum WordDeviceType { DM, EM, FM, W, ZF, CM }
 
