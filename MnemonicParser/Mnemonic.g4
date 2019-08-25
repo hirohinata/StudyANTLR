@@ -41,26 +41,14 @@ operand
     | literal                                           #noneOperand
     ;
 indexable_operand
-    : ASTERISK? AT? word_device
-    | ASTERISK? AT? timer_device
-    | ASTERISK? AT? counter_device
-    | AT? RAW_NUMBER
-    | ASTERISK? label
+    : ASTERISK? AT? device=(WORD_DEVICE | TM_DEVICE | TIMER_DEVICE | COUNTER_DEVICE)    #wordDeviceOperand
+    | AT RAW_NUMBER                                     #localRelayDeviceOperand
+    | RAW_NUMBER                                        #relayDeviceOrLiteralOperand
+    | ASTERISK? label                                   #labelOperand
     ;
 indexed_operand
     : Z_DEVICE
     | dec_number
-    ;
-
-word_device
-    : WORD_DEVICE
-    | TM_DEVICE
-    ;
-timer_device
-    : TIMER_DEVICE
-    ;
-counter_device
-    : COUNTER_DEVICE
     ;
 
 label
@@ -124,7 +112,7 @@ fragment Y: [Yy];
 fragment Z: [Zz];
 
 fragment RELAY_DEVICE_TYPE: R | D R | M R | L R | B | C R;
-fragment WORD_DEVICE_TYPE: D M | E M | F M | W | Z F;
+fragment WORD_DEVICE_TYPE: D M | E M | F M | W | Z F | C M;
 fragment TIMER_DEVICE_TYPE: T;
 fragment COUNTER_DEVICE_TYPE: C;
 fragment Z_DEVICE_TYPE: Z;
